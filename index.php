@@ -770,8 +770,8 @@ function teacherList($connect)
                     <th><a href='?op=teacherList&sort=fname&order=" . ($order === 'ASC' ? 'DESC' : 'ASC') . "&did=$did'>First Name</a></th>
                     <th><a href='?op=teacherList&sort=lname&order=" . ($order === 'ASC' ? 'DESC' : 'ASC') . "&did=$did'>Last Name</a></th>
                     <th><a href='?op=teacherList&sort=department&order=" . ($order === 'ASC' ? 'DESC' : 'ASC') . "&did=$did'>Department</a></th>
-                    <th><a href='?op=teacherList&sort=number_of_courses&order=" . ($order === 'ASC' ? 'DESC' : 'ASC') . "&did=$did'>Number of Courses</a></th>
-                    <th><a href='?op=teacherList&sort=number_of_students&order=" . ($order === 'ASC' ? 'DESC' : 'ASC') . "&did=$did'>Number of Students</a></th>
+					<th><a href='?op=teacherList&sort=number_of_students&order=" . ($order === 'ASC' ? 'DESC' : 'ASC') . "&did=$did'>Students</a></th>
+                    <th><a href='?op=teacherList&sort=number_of_courses&order=" . ($order === 'ASC' ? 'DESC' : 'ASC') . "&did=$did'>Courses</a></th>
 					<th>Weekly Schedule</th>
                     <th>Edit</th>
                     <th>Delete</th>
@@ -783,10 +783,9 @@ function teacherList($connect)
                     <td>{$row['fname']}</td>
                     <td>{$row['lname']}</td>
                     <td>{$row['department']}</td>
+					<td><a href=?op=studentList&tid={$row['tid']}>View {$row['number_of_students']}</a></td>
                     <td><a href=?op=displayCourseList&tid={$row['tid']}>View {$row['number_of_courses']}</a></td>
-                    <td><a href=?op=studentList&tid={$row['tid']}>View {$row['number_of_students']}</a></td>
 					<td><a href=?op=teacherSchedule&tid={$row['tid']}>View</a></td>
-
                     <td><a href=?op=updateTeacherForm&tid={$row['tid']}>Edit</a></td>
                     <td><a href=?op=deleteTeacher&tid={$row['tid']}>Delete</a></td>
                 </tr>";
