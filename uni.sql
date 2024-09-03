@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Aug 23, 2024 at 09:54 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Host: localhost:3306
+-- Generation Time: Sep 03, 2024 at 11:46 AM
+-- Server version: 11.6.1-MariaDB-log
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -51,7 +51,9 @@ INSERT INTO `course` (`cid`, `title`, `description`, `credits`, `did`) VALUES
 (9, 'summer practice', 'IE 299', 2, 4),
 (10, 'summer practice', 'ENV 299', 3, 3),
 (11, 'summer practice', 'CENG 299', 3, 1),
-(12, 'summer practice', 'EE 299', 3, 2);
+(12, 'summer practice', 'EE 299', 3, 2),
+(17, 'software Engneering', 'CENG 208', 6, 1),
+(18, 'Anatomy', 'MED 101', 6, 5);
 
 -- --------------------------------------------------------
 
@@ -72,9 +74,10 @@ CREATE TABLE `department` (
 
 INSERT INTO `department` (`did`, `dname`, `comments`, `email`) VALUES
 (1, 'Comp. Eng.', 'Computer Eng. Department', 'ceng@fatih.edu.tr'),
-(2, 'Elec. Eng.', 'Electronic Eng. Department', 'ceng@fatih.edu.tr'),
+(2, 'Elec. Eng.', 'Electronic Eng. Department', 'eee@fatih.edu.tr'),
 (3, 'Env. Eng.', 'Environmental Eng. Department', 'env@fatih.edu.tr'),
-(4, 'Ind. Eng.', 'Industrial Eng. Department', 'ie@fatih.edu.tr');
+(4, 'Ind. Eng.', 'Industrial Eng. Department', 'ie@fatih.edu.tr'),
+(5, 'Med', 'Medicine Department', 'med@fatih.edu.tr');
 
 -- --------------------------------------------------------
 
@@ -146,25 +149,26 @@ CREATE TABLE `student` (
   `lname` varchar(30) DEFAULT NULL,
   `birthdate` date DEFAULT NULL,
   `birthplace` varchar(50) DEFAULT NULL,
-  `did` int(11) DEFAULT NULL
+  `did` int(11) DEFAULT NULL,
+  `avatarId` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `student`
 --
 
-INSERT INTO `student` (`sid`, `fname`, `lname`, `birthdate`, `birthplace`, `did`) VALUES
-(1, 'Ali', 'Turan', '2024-08-07', 'istanbul', 1),
-(2, 'Ahmet', 'buyuk', '0000-00-00', 'ankara', 2),
-(3, 'Leyla', 'Sahin', '0000-00-00', 'izmir', 1),
-(4, 'Can', 'Turkoglu', '0000-00-00', 'manisa', 2),
-(5, 'Aziz', 'Keskin', '0000-00-00', 'istanbul', 2),
-(6, 'Talat', 'Sanli', '0000-00-00', 'izmir', 3),
-(7, 'Kamuran', 'Kece', '0000-00-00', 'adana', 3),
-(8, 'Turgut', 'Cemal', '0000-00-00', 'bursa', 4),
-(9, 'Oznur', 'Gunes', '0000-00-00', 'bolu', 2),
-(10, 'Pelin', 'Tugay', '0000-00-00', 'izmir', 4),
-(11, 'Savaş', 'Tan', '0000-00-00', 'izmir', 4);
+INSERT INTO `student` (`sid`, `fname`, `lname`, `birthdate`, `birthplace`, `did`, `avatarId`) VALUES
+(1, 'Mustafa', 'Eldikan', '1998-06-04', 'istanbul', 1, 'a9c45961-459b-4907-ba9a-95eb7397a572.png'),
+(2, 'Ahmet', 'buyuk', '0000-00-00', 'ankara', 2, '8bc737aa-b1f5-482e-8883-453c25a3ce96.png'),
+(3, 'Leyla', 'Sahin', '0000-00-00', 'izmir', 1, ''),
+(4, 'Can', 'Turkoglu', '0000-00-00', 'manisa', 2, ''),
+(5, 'Aziz', 'Keskin', '0000-00-00', 'istanbul', 2, ''),
+(6, 'Talat', 'Sanli', '0000-00-00', 'izmir', 3, ''),
+(7, 'Kamuran', 'Kece', '0000-00-00', 'adana', 3, ''),
+(8, 'Turgut', 'Cemal', '0000-00-00', 'bursa', 4, ''),
+(9, 'Oznur', 'Gunes', '0000-00-00', 'bolu', 2, ''),
+(10, 'Pelin', 'Tugay', '0000-00-00', 'izmir', 4, ''),
+(11, 'Savaş', 'Tan', '0000-00-00', 'izmir', 4, '');
 
 -- --------------------------------------------------------
 
@@ -187,35 +191,18 @@ INSERT INTO `take` (`sid`, `cid`, `grade`) VALUES
 (1, 1, 3),
 (1, 2, 2),
 (1, 3, 1),
-(1, 4, NULL),
-(1, 5, NULL),
-(1, 6, NULL),
-(1, 8, NULL),
-(1, 10, NULL),
-(1, 11, 3),
-(2, 1, 4),
-(2, 2, 4),
-(2, 3, 4),
+(1, 17, NULL),
 (2, 4, 4),
-(2, 5, 4),
-(2, 6, 4),
-(2, 7, 4),
 (2, 8, 4),
-(2, 9, 4),
-(2, 10, 3),
-(2, 11, 4),
 (3, 1, 4),
 (3, 2, 4),
 (3, 3, 4),
 (3, 5, 4),
-(4, 1, 2.5),
 (4, 5, 1.5),
-(5, 1, 3),
 (5, 3, NULL),
 (5, 5, 1.5),
 (5, 11, 3.5),
 (6, 2, 4),
-(7, 1, 2.5),
 (7, 2, 3),
 (7, 5, 1.5),
 (7, 8, 1.5),
@@ -252,7 +239,10 @@ INSERT INTO `teach` (`tid`, `cid`) VALUES
 (5, 10),
 (6, 8),
 (7, 5),
-(7, 9);
+(7, 9),
+(8, 13),
+(8, 17),
+(11, 18);
 
 -- --------------------------------------------------------
 
@@ -274,13 +264,15 @@ CREATE TABLE `teacher` (
 --
 
 INSERT INTO `teacher` (`tid`, `fname`, `lname`, `birthdate`, `birthplace`, `did`) VALUES
-(1, 'Selami', 'Durgun', '0000-00-00', 'amasya', 1),
+(1, 'Selami', 'Durgun', '2024-08-08', 'amasyaa', 1),
 (2, 'Cengiz', 'Tahir', '0000-00-00', 'istanbul', 1),
 (3, 'Derya', 'Seckin', '0000-00-00', 'mersin', 1),
 (4, 'Dogan', 'Gedikli', '0000-00-00', 'istanbul', 2),
 (5, 'Ayten', 'Kahraman', '0000-00-00', 'istanbul', 3),
 (6, 'Tahsin', 'Ugur', '0000-00-00', 'izmir', 4),
-(7, 'Selcuk', 'Ozan', '0000-00-00', 'amasya', 4);
+(7, 'Selcuk', 'Ozan', '0000-00-00', 'amasya', 4),
+(8, 'Atakan', 'Kurt', '2024-09-04', 'samsung', 1),
+(11, 'Nuri', 'Aydın', '2024-09-05', 'cerrahpaşa', 5);
 
 --
 -- Indexes for dumped tables
@@ -333,6 +325,34 @@ ALTER TABLE `teach`
 --
 ALTER TABLE `teacher`
   ADD PRIMARY KEY (`tid`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `course`
+--
+ALTER TABLE `course`
+  MODIFY `cid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT for table `department`
+--
+ALTER TABLE `department`
+  MODIFY `did` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `student`
+--
+ALTER TABLE `student`
+  MODIFY `sid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `teacher`
+--
+ALTER TABLE `teacher`
+  MODIFY `tid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
