@@ -116,52 +116,52 @@ switch ($op) {
 			addStudentForm();
 		}
 		break;
-		case 'addTeacher':
-			// Form gönderildiğinde bu kısım çalışacak.
-			if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-				addTeacherToDb(
-					$_POST['fname'],
-					$_POST['lname'],
-					$_POST['birthdate'],
-					$_POST['birthplace'],
-					$_POST['did']
-				);
-			} else {
-				// GET isteklerinde form gösterilecek.
-				addTeacherForm();
-			}
-			break;
+	case 'addTeacher':
+		// Form gönderildiğinde bu kısım çalışacak.
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			addTeacherToDb(
+				$_POST['fname'],
+				$_POST['lname'],
+				$_POST['birthdate'],
+				$_POST['birthplace'],
+				$_POST['did']
+			);
+		} else {
+			// GET isteklerinde form gösterilecek.
+			addTeacherForm();
+		}
+		break;
 
 
-		case 'addCourse':
-				// Form gönderildiğinde bu kısım çalışacak.
-				if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-					addCourseToDb(
-						$_POST['title'],
-						$_POST['description'],
-						$_POST['credits'],
-						$_POST['did'],
-						$_POST['tid']
+	case 'addCourse':
+		// Form gönderildiğinde bu kısım çalışacak.
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			addCourseToDb(
+				$_POST['title'],
+				$_POST['description'],
+				$_POST['credits'],
+				$_POST['did'],
+				$_POST['tid']
 
-					);
-				} else {
-					// GET isteklerinde form gösterilecek.
-					addCourseForm();
-				}
-				break;
-				case 'addDepartment':
-					// Form gönderildiğinde bu kısım çalışacak.
-					if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-						addDepartmentToDb(
-							$_POST['dname'],
-							$_POST['comments'],
-							$_POST['email']
-						);
-					} else {
-						// GET isteklerinde form gösterilecek.
-						addDepartmentForm();
-					}
-					break;
+			);
+		} else {
+			// GET isteklerinde form gösterilecek.
+			addCourseForm();
+		}
+		break;
+	case 'addDepartment':
+		// Form gönderildiğinde bu kısım çalışacak.
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			addDepartmentToDb(
+				$_POST['dname'],
+				$_POST['comments'],
+				$_POST['email']
+			);
+		} else {
+			// GET isteklerinde form gösterilecek.
+			addDepartmentForm();
+		}
+		break;
 
 
 	case 'departmentList':
@@ -570,11 +570,12 @@ function deleteTeacher($tid)
 }
 
 function addStudentForm()
-{	global $connect;
+{
+	global $connect;
 	$deptQuery = "SELECT did, dname FROM department";
-    $deptStmt = $connect->prepare($deptQuery);
-    $deptStmt->execute();
-    $deptResult = $deptStmt->get_result();
+	$deptStmt = $connect->prepare($deptQuery);
+	$deptStmt->execute();
+	$deptResult = $deptStmt->get_result();
 
 	echo "Form for add new students...";
 	echo "<form method='POST' action='' enctype='multipart/form-data'>
@@ -600,13 +601,13 @@ function addStudentForm()
 			<td>Department</td>
             <td>
                 <select name='did' required>";
-                
-                // Populate the select options with department data
-                while ($deptRow = $deptResult->fetch_assoc()) {
-                    echo "<option value='{$deptRow['did']}'>{$deptRow['dname']}</option>";
-                }
 
-    echo "      </select>
+	// Populate the select options with department data
+	while ($deptRow = $deptResult->fetch_assoc()) {
+		echo "<option value='{$deptRow['did']}'>{$deptRow['dname']}</option>";
+	}
+
+	echo "      </select>
             </td>
         </tr>
         <tr>
@@ -642,17 +643,18 @@ function addStudentToDb($fname, $lname, $birthdate, $birthplace, $did, $avatarId
 	$stmt->close();
 }
 
-function addTeacherForm(){
-    global $connect;
+function addTeacherForm()
+{
+	global $connect;
 
-    // Fetch all departments
-    $deptQuery = "SELECT did, dname FROM department";
-    $deptStmt = $connect->prepare($deptQuery);
-    $deptStmt->execute();
-    $deptResult = $deptStmt->get_result();
+	// Fetch all departments
+	$deptQuery = "SELECT did, dname FROM department";
+	$deptStmt = $connect->prepare($deptQuery);
+	$deptStmt->execute();
+	$deptResult = $deptStmt->get_result();
 
-    echo "Form for adding new teachers...";
-    echo "<form method='POST' action='' enctype='multipart/form-data'>
+	echo "Form for adding new teachers...";
+	echo "<form method='POST' action='' enctype='multipart/form-data'>
     <table border='1'>
         <tr>
             <td>Firstname</td>
@@ -670,13 +672,13 @@ function addTeacherForm(){
             <td>Department</td>
             <td>
                 <select name='did' required>";
-                
-                // Populate the select options with department data
-                while ($deptRow = $deptResult->fetch_assoc()) {
-                    echo "<option value='{$deptRow['did']}'>{$deptRow['dname']}</option>";
-                }
 
-    echo "      </select>
+	// Populate the select options with department data
+	while ($deptRow = $deptResult->fetch_assoc()) {
+		echo "<option value='{$deptRow['did']}'>{$deptRow['dname']}</option>";
+	}
+
+	echo "      </select>
             </td>
         </tr>
         <tr>
@@ -685,10 +687,11 @@ function addTeacherForm(){
     </table>
     </form>";
 
-    $deptStmt->close();
+	$deptStmt->close();
 }
 
-function addTeacherToDb($fname, $lname, $birthdate, $birthplace, $did){
+function addTeacherToDb($fname, $lname, $birthdate, $birthplace, $did)
+{
 	global $connect;
 
 	if ($connect->connect_error) {
@@ -710,21 +713,22 @@ function addTeacherToDb($fname, $lname, $birthdate, $birthplace, $did){
 	$stmt->close();
 }
 
-function addCourseForm(){
-	 global $connect;
+function addCourseForm()
+{
+	global $connect;
 
-    $deptQuery = "SELECT did, dname FROM department";
-    $deptStmt = $connect->prepare($deptQuery);
-    $deptStmt->execute();
-    $deptResult = $deptStmt->get_result();
+	$deptQuery = "SELECT did, dname FROM department";
+	$deptStmt = $connect->prepare($deptQuery);
+	$deptStmt->execute();
+	$deptResult = $deptStmt->get_result();
 
 	$tchrQuery = "SELECT tid,CONCAT(teacher.fname, ' ', teacher.lname) AS teacher_name FROM teacher";
-    $tchrStmt = $connect->prepare($tchrQuery);
-    $tchrStmt->execute();
-    $tchrResult = $tchrStmt->get_result();
+	$tchrStmt = $connect->prepare($tchrQuery);
+	$tchrStmt->execute();
+	$tchrResult = $tchrStmt->get_result();
 
-    echo "Form for adding new courses...";
-    echo "<form method='POST' action='' enctype='multipart/form-data'>
+	echo "Form for adding new courses...";
+	echo "<form method='POST' action='' enctype='multipart/form-data'>
     <table border='1'>
         <tr>
             <td>Title</td>
@@ -740,25 +744,25 @@ function addCourseForm(){
             <td>Department</td>
             <td>
                 <select name='did' required>";
-                
-                // Populate the select options with department data
-                while ($deptRow = $deptResult->fetch_assoc()) {
-                    echo "<option value='{$deptRow['did']}'>{$deptRow['dname']}</option>";
-                }
 
-    echo "      </select>
+	// Populate the select options with department data
+	while ($deptRow = $deptResult->fetch_assoc()) {
+		echo "<option value='{$deptRow['did']}'>{$deptRow['dname']}</option>";
+	}
+
+	echo "      </select>
             </td>
 
 			            <td>Teacher</td>
             <td>
                 <select name='tid' required>";
-                
-                // Populate the select options with department data
-                while ($tchrRow = $tchrResult->fetch_assoc()) {
-                    echo "<option value='{$tchrRow['tid']}'>{$tchrRow['teacher_name']}</option>";
-                }
 
-    echo "      </select>
+	// Populate the select options with department data
+	while ($tchrRow = $tchrResult->fetch_assoc()) {
+		echo "<option value='{$tchrRow['tid']}'>{$tchrRow['teacher_name']}</option>";
+	}
+
+	echo "      </select>
             </td>
         </tr>
         <tr>
@@ -767,9 +771,10 @@ function addCourseForm(){
     </table>
     </form>";
 
-    $deptStmt->close();
+	$deptStmt->close();
 }
-function addCourseToDb($title, $description, $credits,$did, $tid){
+function addCourseToDb($title, $description, $credits, $did, $tid)
+{
 	global $connect;
 
 	if ($connect->connect_error) {
@@ -797,10 +802,11 @@ function addCourseToDb($title, $description, $credits,$did, $tid){
 	$stmt->close();
 }
 
-function addDepartmentForm(){
-	
-    echo "Form for adding new department...";
-    echo "<form method='POST' action='' enctype='multipart/form-data'>
+function addDepartmentForm()
+{
+
+	echo "Form for adding new department...";
+	echo "<form method='POST' action='' enctype='multipart/form-data'>
     <table border='1'>
         <tr>
             <td>Department name</td>
@@ -819,9 +825,9 @@ function addDepartmentForm(){
         </tr>
     </table>
     </form>";
-
 }
-function addDepartmentToDb($dname , $comments , $email){
+function addDepartmentToDb($dname, $comments, $email)
+{
 	global $connect;
 
 	if ($connect->connect_error) {
@@ -932,11 +938,11 @@ function studentList($sidChosen, $col, $dir, $pageNo)
 
 	echo "<h3>Student List</h3>";
 	if ($did) {
-		echo "<p>Students of: <strong>" . ($dname) . "</strong> department</p>";
+		echo "<p style='color:green;'>Students of: <strong>" . ($dname) . "</strong> department</p>";
 	} elseif ($cid) {
-		echo "<p>Students of: <strong>" . ($title) . "</strong> Course</p>";
+		echo "<p style='color:green;'>Students of: <strong>" . ($title) . "</strong> Course</p>";
 	} elseif ($tid) {
-		echo "<p>Students of: <strong>" . ($teacherName) . "</strong> Teacher</p>";
+		echo "<p style='color:green;'>Students of: <strong>" . ($teacherName) . "</strong> Teacher</p>";
 	}
 	echo "<table border='1'>
         <tr>
@@ -1014,7 +1020,7 @@ function displayCourseList($connect)
 	// Check for teacher ID
 
 	// Validate sorting and ordering
-	$validSorts = ['cid', 'title', 'dept', 'teacher_name', 'student_count','average', 'credits'];
+	$validSorts = ['cid', 'title', 'dept', 'teacher_name', 'student_count', 'average', 'credits'];
 	$validOrders = ['ASC', 'DESC'];
 	if (!in_array($sort, $validSorts)) $sort = 'cid';
 	if (!in_array($order, $validOrders)) $order = 'ASC';
@@ -1085,9 +1091,9 @@ function displayCourseList($connect)
 
 	echo "<h3>Course List</h3>";
 	if ($did) {
-		echo "<p>Courses of: <strong>" . ($dname) . "</strong> department</p>";
+		echo "<p style='color:green;'>Courses of: <strong>" . ($dname) . "</strong> department</p>";
 	} elseif ($tid) {
-		echo "<p>Courses of: <strong>" . ($teacherName) . "</strong> Teacher</p>";
+		echo "<p style='color:green;'>Courses of: <strong>" . ($teacherName) . "</strong> Teacher</p>";
 	}
 
 
@@ -1120,7 +1126,6 @@ function displayCourseList($connect)
 		}
 		echo "</table><br>";
 		echo "To add new teachers click here <a href='?op=addCourse'><button style='cursor:pointer'>New course</button></a>";
-
 	} else {
 		echo "No courses found.";
 	}
@@ -1189,7 +1194,7 @@ function teacherList($connect)
 
 	echo "<h3>Teacher List</h3>";
 	if ($did) {
-		echo "<p>Teachers of: <strong>" . ($dname) . "</strong> department</p>";
+		echo "<p style='color:green;'>Teachers of: <strong>" . ($dname) . "</strong> department</p>";
 	}
 
 	if ($result->num_rows > 0) {
@@ -1222,7 +1227,6 @@ function teacherList($connect)
 		}
 		echo "</table><br>";
 		echo "To add new teachers click here <a href='?op=addTeacher'><button style='cursor:pointer'>New teacher</button></a>";
-
 	} else {
 		echo "No teachers found.";
 	}
@@ -1283,7 +1287,6 @@ function departmentList($connect)
 		}
 		echo "</table><br>";
 		echo "To add new departments click here <a href='?op=addDepartment'><button style='cursor:pointer'>New department</button></a>";
-
 	} else {
 		echo "No departments found.";
 	}
