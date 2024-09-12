@@ -3,7 +3,14 @@
 $connect = connectToDB();
 menu(); // show menu everywhere
 $op = $_REQUEST['op'] ?? '';
+session_start();  // Start the session
 
+// Check if the user is logged in
+if (!isset($_SESSION['user_id'])) {
+    // User is not logged in, redirect to the sign-in page
+    header("Location: sign.php");
+    exit();
+}
 switch ($op) {
 	case 'info':
 		updateForm($_REQUEST['sid']);
@@ -169,7 +176,6 @@ switch ($op) {
 		break;
 	case 'chooseCourse':
 		if (!isset($_REQUEST['sid'])) {
-			echo 'Please first choose a student from the list below<br>';
 			studentList($_REQUEST['sid'] ?? '', $_GET['col'] ?? 'sid', $_GET['direct'] ?? 'ASC', $_GET['pageno'] ?? '1');
 		} else {
 			$studentsDid = $_REQUEST['did'] ?? getStudentDid($_REQUEST['sid']);
@@ -181,7 +187,6 @@ switch ($op) {
 		break;
 	case 'chooseStudent':
 		if (!isset($_REQUEST['sid'])) {
-			echo 'Please first choose a student from the list below<br>';
 			studentList($_REQUEST['sid'] ?? '', $_GET['col'] ?? 'sid', $_GET['direct'] ?? 'ASC', $_GET['pageno'] ?? '1');
 		} else {
 
@@ -217,7 +222,8 @@ function menu()
     <a href='?op=list&sid=$sid'>Student list</a><br>
     <a href='?op=displayCourseList&sid=$sid'>Course List</a><br>
 	<a href='?op=teacherList'>Teacher List</a><br>
-    <a href='?op=departmentList'>Department List</a><br><br>";
+    <a href='?op=departmentList'>Department List</a><br>
+	<a href='sign.php' style='color:red;'>Logout</a><br><br>";
 
 	if ($sid) {
 		// Query to join student and take tables to get the grade
@@ -378,7 +384,7 @@ function takeCourse($sid, $cid)
 {
 	global $connect;
 	$stmt = $connect->prepare("INSERT IGNORE INTO take (sid, cid) VALUES (?, ?)");
-	$stmt->bind_param('is', $sid, $cid);
+	$stmt->bind_param('ii', $sid, $cid);
 	$stmt->execute();
 	if ($stmt->affected_rows) {
 		echo "Course added.<br>";
@@ -1387,7 +1393,6 @@ function scheduleStudent($id, $sql)
 		// Başlığı çıktıya bas
 		echo $header;
 
-		if ($op === 'courseSchedule') {
 			// Oda bilgilerini almak için ek bir sorgu
 			$stmtRoom = $connect->prepare("SELECT * FROM room");
 			$stmtRoom->execute();
@@ -1422,7 +1427,7 @@ function scheduleStudent($id, $sql)
 				echo "</tr>";
 			}
 			echo '</table>';
-		}
+		
 		# code...
 	} else {
 		echo "<table border='1'>";
