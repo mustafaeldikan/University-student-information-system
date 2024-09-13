@@ -134,6 +134,9 @@
     </div>
 
     <footer>
+    <p>
+		Created with <i class="fa fa-heart"></i> by
+		<a target="_blank" href="https://www.linkedin.com/in/mustafa-eldikan-41bb30207?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3B5e%2B7HlX6TZaD1Q09cJdNiQ%3D%3D" >Mustafa</a>
     </footer>
 
     <script>
@@ -148,6 +151,7 @@
         signInButton.addEventListener('click', () => {
             container.classList.remove("right-panel-active");
         });
+        
     </script>
 </body>
 </html>
