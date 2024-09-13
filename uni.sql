@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Sep 03, 2024 at 11:46 AM
+-- Generation Time: Sep 13, 2024 at 11:45 AM
 -- Server version: 11.6.1-MariaDB-log
 -- PHP Version: 8.1.10
 
@@ -53,7 +53,8 @@ INSERT INTO `course` (`cid`, `title`, `description`, `credits`, `did`) VALUES
 (11, 'summer practice', 'CENG 299', 3, 1),
 (12, 'summer practice', 'EE 299', 3, 2),
 (17, 'software Engneering', 'CENG 208', 6, 1),
-(18, 'Anatomy', 'MED 101', 6, 5);
+(18, 'Anatomy', 'MED 101', 6, 5),
+(19, 'İntrudection to low', 'Low 101', 4, 6);
 
 -- --------------------------------------------------------
 
@@ -77,7 +78,8 @@ INSERT INTO `department` (`did`, `dname`, `comments`, `email`) VALUES
 (2, 'Elec. Eng.', 'Electronic Eng. Department', 'eee@fatih.edu.tr'),
 (3, 'Env. Eng.', 'Environmental Eng. Department', 'env@fatih.edu.tr'),
 (4, 'Ind. Eng.', 'Industrial Eng. Department', 'ie@fatih.edu.tr'),
-(5, 'Med', 'Medicine Department', 'med@fatih.edu.tr');
+(5, 'Med', 'Medicine Department', 'med@fatih.edu.tr'),
+(6, 'Facutly of Low', 'Low Department', 'l@fatih.edu.tr');
 
 -- --------------------------------------------------------
 
@@ -135,7 +137,11 @@ INSERT INTO `schedule` (`cid`, `rid`, `dayOfWeek`, `hourOfDay`) VALUES
 (9, 4, 'H', '09'),
 (10, 4, 'H', '14'),
 (11, 2, 'F', '11'),
-(12, 1, 'F', '15');
+(12, 1, 'F', '15'),
+(17, 1, 'T', '16'),
+(18, 1, 'H', '16'),
+(19, 1, 'M', '15'),
+(19, 1, 'M', '16');
 
 -- --------------------------------------------------------
 
@@ -168,7 +174,8 @@ INSERT INTO `student` (`sid`, `fname`, `lname`, `birthdate`, `birthplace`, `did`
 (8, 'Turgut', 'Cemal', '0000-00-00', 'bursa', 4, ''),
 (9, 'Oznur', 'Gunes', '0000-00-00', 'bolu', 2, ''),
 (10, 'Pelin', 'Tugay', '0000-00-00', 'izmir', 4, ''),
-(11, 'Savaş', 'Tan', '0000-00-00', 'izmir', 4, '');
+(11, 'Savaş', 'Tan', '0000-00-00', 'izmir', 4, ''),
+(15, 'Ali', 'Rıza', '2024-09-12', 'Mersin', 6, '0');
 
 -- --------------------------------------------------------
 
@@ -187,19 +194,15 @@ CREATE TABLE `take` (
 --
 
 INSERT INTO `take` (`sid`, `cid`, `grade`) VALUES
-(0, 11, NULL),
-(1, 1, 3),
-(1, 2, 2),
 (1, 3, 1),
 (1, 17, NULL),
 (2, 4, 4),
 (2, 8, 4),
 (3, 1, 4),
-(3, 2, 4),
 (3, 3, 4),
 (3, 5, 4),
-(4, 5, 1.5),
-(5, 3, NULL),
+(4, 18, 2),
+(5, 3, 1.5),
 (5, 5, 1.5),
 (5, 11, 3.5),
 (6, 2, 4),
@@ -210,7 +213,8 @@ INSERT INTO `take` (`sid`, `cid`, `grade`) VALUES
 (8, 7, 1.5),
 (10, 2, 4),
 (10, 8, 3),
-(11, 8, 1);
+(11, 8, 1),
+(15, 19, 3);
 
 -- --------------------------------------------------------
 
@@ -242,7 +246,8 @@ INSERT INTO `teach` (`tid`, `cid`) VALUES
 (7, 9),
 (8, 13),
 (8, 17),
-(11, 18);
+(11, 18),
+(12, 19);
 
 -- --------------------------------------------------------
 
@@ -272,7 +277,31 @@ INSERT INTO `teacher` (`tid`, `fname`, `lname`, `birthdate`, `birthplace`, `did`
 (6, 'Tahsin', 'Ugur', '0000-00-00', 'izmir', 4),
 (7, 'Selcuk', 'Ozan', '0000-00-00', 'amasya', 4),
 (8, 'Atakan', 'Kurt', '2024-09-04', 'samsung', 1),
-(11, 'Nuri', 'Aydın', '2024-09-05', 'cerrahpaşa', 5);
+(11, 'Nuri', 'Aydın', '2024-09-05', 'cerrahpaşa', 5),
+(12, 'Mehmet ', 'Yavuz', '2024-09-11', 'Konya', 6);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(6) UNSIGNED NOT NULL,
+  `name` varchar(30) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `reg_date` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `reg_date`) VALUES
+(8, 'mustafa', 'mustafa98dikan@gmail.com', '$2y$10$cGegAByfAF7b08DJVznTl.M5/hFc2om8JLjOGo8kvemUVt1.NqEYS', '2024-09-12 06:31:51'),
+(9, 'atakan', 'atakanhoca@gmail.com', '$2y$10$OoWnP.JJ/uJOEGdElp5O/uuDWZLQc6e91XXlxiDFp9eYUTYMlBS96', '2024-09-12 12:05:42'),
+(10, 'ali alturk', 'ceng@fatih.edu.tr', '$2y$10$6JWpmfeAZ2ADyg2KupNmzue5SBOFhGauOKB9ipZSu3vQAnjzBVdh2', '2024-09-12 12:08:42');
 
 --
 -- Indexes for dumped tables
@@ -327,6 +356,12 @@ ALTER TABLE `teacher`
   ADD PRIMARY KEY (`tid`);
 
 --
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -334,25 +369,31 @@ ALTER TABLE `teacher`
 -- AUTO_INCREMENT for table `course`
 --
 ALTER TABLE `course`
-  MODIFY `cid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `cid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `department`
 --
 ALTER TABLE `department`
-  MODIFY `did` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `did` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `student`
 --
 ALTER TABLE `student`
-  MODIFY `sid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `sid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `teacher`
 --
 ALTER TABLE `teacher`
-  MODIFY `tid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `tid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(6) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
